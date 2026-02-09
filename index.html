@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para el amor de mi vida</title>
+    <title>Para Norma</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div id="corazon-inicial" onclick="iniciarAnimacion()">
             <div class="heart"></div>
-            <p>San Valentín</p>
+            <p style="cursor:pointer; margin-top:20px;">Toca el corazón</p>
         </div>
 
         <div id="contenido-oculto" class="hidden">
             <div class="arbol-container">
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueXByZ3M1eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41JWZ59nSAnzeU8g/giphy.gif" alt="Árbol de corazones" class="arbol" style="width:200px;">
+                <img src="https://media.giphy.com/media/l41JWZ59nSAnzeU8g/giphy.gif" alt="Árbol" class="arbol" style="width:220px;">
             </div>
             
             <div class="mensaje">
-                <p>Para el amor de mi vida:</p>
+                <p>Para el amor de mi vida, Norma:</p>
                 <p>Si pudiera elegir un lugar seguro, sería a tu lado.</p>
                 <p>Cuanto más tiempo estoy contigo, más te amo.</p>
-                <h2 id="te-amo">— I Love You! _</h2>
+                <h2 id="te-amo">— ¡Te amo muchísimo! —</h2>
             </div>
 
             <div class="contador">
-                <p>Mi amor por ti comenzó hace...</p>
-                <div id="timer" style="font-weight: bold; color: #b32a3a;"></div>
+                <p>Nuestro camino juntos comenzó hace...</p>
+                <div id="timer" style="font-weight: bold; color: #b32a3a; font-size: 1.2rem;"></div>
             </div>
         </div>
     </div>
@@ -40,9 +40,10 @@
             setInterval(actualizarContador, 1000);
         }
 
-        // CAMBIA ESTA FECHA: Pon el año, mes y día en que se hicieron novios
-        // Ejemplo: si fue el 14 de mayo de 2016 -> new Date(2016, 4, 14) 
-        // Nota: El mes va de 0 a 11 (Enero es 0, Mayo es 4)
+        /* CONFIGURA TU FECHA AQUÍ:
+           Si llevan casi 10 años, pondré una fecha de ejemplo de hace 10 años (2016).
+           Cámbiala por la fecha exacta si la sabes: new Date(AÑO, MES-1, DÍA)
+        */
         const fechaInicio = new Date(2016, 3, 11, 0, 0, 0); 
 
         function actualizarContador() {
@@ -57,13 +58,8 @@
             const segundos = Math.floor((diferencia / 1000) % 60);
 
             document.getElementById('timer').innerHTML = 
-                `${años} años, ${diasRestantes} días, ${horas}h ${minutos}m ${segundos}s`;
+                `${años} años, ${diasRestantes} días y ${horas}:${minutos}:${segundos}`;
         }
     </script>
 </body>
-</html>
-        }
-    </script>
-</body>
-
 </html>
