@@ -6,64 +6,76 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    overflow: hidden;
 }
 
-.container {
-    text-align: center;
-    width: 90%;
+.container { text-align: center; width: 90%; }
+.hidden { display: none !important; }
+
+/* El Árbol de Código */
+.tree {
+    position: relative;
+    width: 100px;
+    height: 150px;
+    margin: 0 auto 50px;
 }
 
-.hidden {
-    display: none !important;
+.trunk {
+    position: absolute;
+    bottom: 0;
+    left: 45px;
+    width: 10px;
+    height: 100px;
+    background: #5D4037;
+    border-radius: 5px;
 }
 
-/* Estilo del corazón inicial */
+.heart-leaf {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #e91e63;
+    transform: rotate(-45deg);
+    animation: float 3s infinite ease-in-out;
+}
+
+.heart-leaf::before, .heart-leaf::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #e91e63;
+    border-radius: 50%;
+}
+
+.heart-leaf::before { top: -10px; left: 0; }
+.heart-leaf::after { left: 10px; top: 0; }
+
+@keyframes float {
+    0%, 100% { transform: rotate(-45deg) translateY(0); }
+    50% { transform: rotate(-45deg) translateY(-10px); }
+}
+
+/* El Corazón del botón */
 .heart {
     background-color: #b32a3a;
     display: inline-block;
-    height: 30px;
-    margin: 0 10px;
+    height: 50px;
     position: relative;
-    top: 0;
     transform: rotate(-45deg);
-    width: 30px;
-    cursor: pointer;
+    width: 50px;
 }
 
 .heart:before, .heart:after {
     content: "";
     background-color: #b32a3a;
     border-radius: 50%;
-    height: 30px;
+    height: 50px;
     position: absolute;
-    width: 30px;
+    width: 50px;
 }
 
-.heart:before { top: -15px; left: 0; }
-.heart:after { left: 15px; top: 0; }
+.heart:before { top: -25px; left: 0; }
+.heart:after { left: 25px; top: 0; }
 
-/* Mensajes */
-.mensaje {
-    margin-top: 20px;
-    color: #4a4a4a;
-    font-size: 1.1rem;
-}
-
-#te-amo {
-    color: #b32a3a;
-    font-weight: bold;
-}
-
-.arbol {
-    max-width: 300px;
-    margin-bottom: 20px;
-}
-
-.contador {
-    margin-top: 30px;
-    font-size: 0.9rem;
-    color: #333;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-}
+.mensaje { color: #4a4a4a; margin-top: 20px; }
+#te-amo { color: #b32a3a; }
