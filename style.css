@@ -9,54 +9,60 @@ body {
 }
 
 .container { text-align: center; width: 90%; }
-.hidden { display: none !important; }
+.hidden { display: none; }
 
-/* El Árbol de Código */
-.tree {
+/* El Árbol */
+.tree-container {
     position: relative;
-    width: 100px;
-    height: 150px;
-    margin: 0 auto 50px;
+    width: 150px;
+    height: 200px;
+    margin: 0 auto 30px;
 }
 
 .trunk {
     position: absolute;
     bottom: 0;
-    left: 45px;
-    width: 10px;
+    left: 50%;
+    width: 12px;
     height: 100px;
     background: #5D4037;
-    border-radius: 5px;
+    border-radius: 6px;
+    transform: translateX(-50%);
 }
 
 .heart-leaf {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background: #e91e63;
     transform: rotate(-45deg);
-    animation: float 3s infinite ease-in-out;
+    animation: pulse 2s infinite ease-in-out;
 }
 
 .heart-leaf::before, .heart-leaf::after {
     content: "";
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background: #e91e63;
     border-radius: 50%;
 }
+.heart-leaf::before { top: -15px; left: 0; }
+.heart-leaf::after { left: 15px; top: 0; }
 
-.heart-leaf::before { top: -10px; left: 0; }
-.heart-leaf::after { left: 10px; top: 0; }
+.leaf1 { top: 0; left: 60px; }
+.leaf2 { top: 40px; left: 20px; animation-delay: 0.5s; }
+.leaf3 { top: 40px; left: 100px; animation-delay: 1s; }
+.leaf4 { top: 80px; left: 40px; animation-delay: 1.5s; }
+.leaf5 { top: 80px; left: 80px; animation-delay: 0.2s; }
 
-@keyframes float {
-    0%, 100% { transform: rotate(-45deg) translateY(0); }
-    50% { transform: rotate(-45deg) translateY(-10px); }
+@keyframes pulse {
+    0%, 100% { transform: rotate(-45deg) scale(1); }
+    50% { transform: rotate(-45deg) scale(1.1); }
 }
 
-/* El Corazón del botón */
-.heart {
+/* Botón Corazón */
+.heart-btn {
     background-color: #b32a3a;
     display: inline-block;
     height: 50px;
@@ -64,8 +70,7 @@ body {
     transform: rotate(-45deg);
     width: 50px;
 }
-
-.heart:before, .heart:after {
+.heart-btn:before, .heart-btn:after {
     content: "";
     background-color: #b32a3a;
     border-radius: 50%;
@@ -73,9 +78,8 @@ body {
     position: absolute;
     width: 50px;
 }
-
-.heart:before { top: -25px; left: 0; }
-.heart:after { left: 25px; top: 0; }
+.heart-btn:before { top: -25px; left: 0; }
+.heart-btn:after { left: 25px; top: 0; }
 
 .mensaje { color: #4a4a4a; margin-top: 20px; }
 #te-amo { color: #b32a3a; }
