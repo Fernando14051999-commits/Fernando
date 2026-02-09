@@ -14,8 +14,14 @@
         </div>
 
         <div id="contenido-oculto" class="hidden">
-            <div class="arbol-container">
-                <img src="https://raw.githubusercontent.com/Arastrid/tree-animation/main/tree.gif" alt="Árbol" class="arbol" style="width:250px;">
+            <div class="tree">
+                <div class="trunk"></div>
+                <div class="heart-leaf" style="top:-10px; left:15px;"></div>
+                <div class="heart-leaf" style="top:10px; left:-10px;"></div>
+                <div class="heart-leaf" style="top:25px; left:40px;"></div>
+                <div class="heart-leaf" style="top:50px; left:5px;"></div>
+                <div class="heart-leaf" style="top:40px; left:60px;"></div>
+                <div class="heart-leaf" style="top:70px; left:30px;"></div>
             </div>
             
             <div class="mensaje">
@@ -40,29 +46,21 @@
             setInterval(actualizarContador, 1000);
         }
 
-        /* CONFIGURA TU FECHA AQUÍ:
-           Si llevan casi 10 años, pondré una fecha de ejemplo de hace 10 años (2016).
-           Cámbiala por la fecha exacta si la sabes: new Date(AÑO, MES-1, DÍA)
-        */
-        const fechaInicio = new Date(2016, 3, 11, 0, 0, 0); 
+        const fechaInicio = new Date(2016, 3, 9, 0, 0, 0); 
 
         function actualizarContador() {
             const ahora = new Date();
             const diferencia = ahora - fechaInicio;
-
             const diasTotales = Math.floor(diferencia / (1000 * 60 * 60 * 24));
             const años = Math.floor(diasTotales / 365);
             const diasRestantes = diasTotales % 365;
             const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
             const minutos = Math.floor((diferencia / 1000 / 60) % 60);
             const segundos = Math.floor((diferencia / 1000) % 60);
-
-            document.getElementById('timer').innerHTML = 
-                `${años} años, ${diasRestantes} días y ${horas}:${minutos}:${segundos}`;
+            document.getElementById('timer').innerHTML = `${años} años, ${diasRestantes} días, ${horas}h ${minutos}m ${segundos}s`;
         }
     </script>
 </body>
 </html>
-
 
 
