@@ -5,76 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Nina</title>
     <style>
-        body { background-color: #f5eee6; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        body { background-color: #f5eee6; font-family: 'Courier New', Courier, monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
         .container { text-align: center; width: 100%; position: relative; }
-        
-        /* CORAZÓN INICIAL */
-        .heart-btn { background-color: #b32a3a; display: inline-block; height: 80px; position: relative; transform: rotate(-45deg); width: 80px; cursor: pointer; animation: pulse 1.2s infinite; }
-        .heart-btn:before, .heart-btn:after { content: ""; background-color: #b32a3a; border-radius: 50%; height: 80px; position: absolute; width: 80px; }
-        .heart-btn:before { top: -40px; left: 0; }
-        .heart-btn:after { left: 40px; top: 0; }
-        @keyframes pulse { 0% { transform: rotate(-45deg) scale(1); } 20% { transform: rotate(-45deg) scale(1.1); } 40% { transform: rotate(-45deg) scale(1); } }
+        .hidden { display: none !important; }
 
-        /* ÁRBOL DE CORAZONES */
-        .tree { position: relative; width: 200px; height: 260px; margin: 0 auto 20px; }
-        .trunk { position: absolute; bottom: 0; left: 50%; width: 16px; height: 120px; background: #5D4037; border-radius: 10px; transform: translateX(-50%); }
+        /* PANTALLA 1: EL CORAZÓN QUE LATE */
+        .heart-btn { background-color: #b32a3a; display: inline-block; height: 100px; position: relative; transform: rotate(-45deg); width: 100px; cursor: pointer; animation: latido 1.2s infinite; margin-bottom: 50px; }
+        .heart-btn:before, .heart-btn:after { content: ""; background-color: #b32a3a; border-radius: 50%; height: 100px; position: absolute; width: 100px; }
+        .heart-btn:before { top: -50px; left: 0; }
+        .heart-btn:after { left: 50px; top: 0; }
+        @keyframes latido { 0% { transform: rotate(-45deg) scale(1); } 20% { transform: rotate(-45deg) scale(1.1); } 40% { transform: rotate(-45deg) scale(1); } }
+
+        /* PANTALLA 2: EL ÁRBOL DE CÓDIGO */
+        .tree { position: relative; width: 220px; height: 300px; margin: 0 auto 20px; }
+        .trunk { position: absolute; bottom: 0; left: 50%; width: 18px; height: 140px; background: #5D4037; border-radius: 10px; transform: translateX(-50%); z-index: 1; }
         
-        .leaf { position: absolute; width: 18px; height: 18px; background: #e91e63; transform: rotate(-45deg); animation: float 3s infinite ease-in-out; }
-        .leaf:before, .leaf:after { content: ""; position: absolute; width: 18px; height: 18px; background: #e91e63; border-radius: 50%; }
-        .leaf:before { top: -9px; left: 0; }
-        .leaf:after { left: 9px; top: 0; }
-        @keyframes float { 0%, 100% { transform: rotate(-45deg) translateY(0); } 50% { transform: rotate(-45deg) translateY(-10px); } }
+        /* CORAZONES DEL ÁRBOL */
+        .leaf { position: absolute; width: 22px; height: 22px; background: #e91e63; transform: rotate(-45deg); animation: flotar 3s infinite ease-in-out; }
+        .leaf:before, .leaf:after { content: ""; position: absolute; width: 22px; height: 22px; background: #e91e63; border-radius: 50%; }
+        .leaf:before { top: -11px; left: 0; }
+        .leaf:after { left: 11px; top: 0; }
+        @keyframes flotar { 0%, 100% { transform: rotate(-45deg) translateY(0); } 50% { transform: rotate(-45deg) translateY(-12px); } }
 
         .mensaje { color: #4a4a4a; margin-top: 20px; padding: 0 15px; }
-        #te-amo { color: #b32a3a; font-weight: bold; }
-        .hidden { display: none !important; }
-        .timer { font-weight: bold; color: #b32a3a; margin-top: 15px; font-size: 1.1rem; }
+        #te-amo { color: #b32a3a; font-weight: bold; margin: 15px 0; }
+        .timer { font-weight: bold; color: #b32a3a; font-size: 1.15rem; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="pantalla-inicio" onclick="mostrarRegalo()">
+        <div id="inicio" onclick="comenzar()">
             <div class="heart-btn"></div>
-            <h2 style="margin-top: 60px; color: #b32a3a;">Toca el corazón</h2>
+            <h2 style="color: #b32a3a; margin-top: 40px;">Toca el corazón</h2>
         </div>
 
         <div id="regalo" class="hidden">
-            <div class="tree" id="tree-box">
+            <div class="tree" id="tree-container">
                 <div class="trunk"></div>
             </div>
             <div class="mensaje">
-                <p>Para mi Norma (Nina):</p>
+                <p>Para el amor de mi vida, Norma (Nina):</p>
                 <p>No hay lugar mas seguro que el estar a tu lado.</p>
                 <p>Cuanto más tiempo estoy contigo, más te amo.</p>
                 <h2 id="te-amo">— ¡Te amo muchísimo! —</h2>
+                <p style="font-size: 0.9rem;">Nuestro camino juntos comenzó hace...</p>
                 <div id="contador" class="timer"></div>
             </div>
         </div>
     </div>
 
     <script>
-        function mostrarRegalo() {
-            document.getElementById('pantalla-inicio').classList.add('hidden');
+        function comenzar() {
+            document.getElementById('inicio').classList.add('hidden');
             document.getElementById('regalo').classList.remove('hidden');
-            crearArbol();
-            iniciarTiempo();
+            construirArbol();
+            iniciarReloj();
         }
 
-        function crearArbol() {
-            const box = document.getElementById('tree-box');
-            for (let i = 0; i < 35; i++) {
-                const l = document.createElement('div');
-                l.className = 'leaf';
-                l.style.top = (Math.random() * 130) + 'px';
-                l.style.left = (Math.random() * 160) + 20 + 'px';
-                l.style.animationDelay = (Math.random() * 2) + 's';
-                if(i % 2 === 0) l.style.background = '#ff4d6d';
-                box.appendChild(l);
+        function construirArbol() {
+            const container = document.getElementById('tree-container');
+            // Creamos 40 corazones para que se vea muy lleno como el video
+            for (let i = 0; i < 40; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                // Posicionamiento aleatorio en la copa del árbol
+                const top = Math.random() * 140; 
+                const left = (Math.random() * 180) + 20; 
+                const delay = Math.random() * 2;
+                
+                leaf.style.top = top + 'px';
+                leaf.style.left = left + 'px';
+                leaf.style.animationDelay = delay + 's';
+                
+                // Variedad de rosas y rojos
+                if(i % 3 === 0) leaf.style.background = '#ff4d6d';
+                if(i % 3 === 1) leaf.style.background = '#c9184a';
+                
+                container.appendChild(leaf);
             }
         }
 
-        function iniciarTiempo() {
-            const inicio = new Date(2016, 3, 11); // Tu fecha configurada
+        function iniciarReloj() {
+            // Fecha ajustada para marcar tus 9 años y 306 días actuales
+            const inicio = new Date(2016, 3, 11); 
             setInterval(() => {
                 const ahora = new Date();
                 const diff = ahora - inicio;
@@ -89,8 +102,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
