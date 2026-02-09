@@ -3,90 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Nina</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Árbol de Corazones</title>
     <style>
-        body { background-color: #fce4ec; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
-        .container { text-align: center; width: 100%; padding: 20px; }
-        .hidden { display: none !important; }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
 
-        /* PANTALLA 1: CORAZÓN INICIAL */
-        .heart-btn { background-color: #d81b60; display: inline-block; height: 90px; position: relative; transform: rotate(-45deg); width: 90px; cursor: pointer; animation: pulse 1.2s infinite; }
-        .heart-btn:before, .heart-btn:after { content: ""; background-color: #d81b60; border-radius: 50%; height: 90px; position: absolute; width: 90px; }
-        .heart-btn:before { top: -45px; left: 0; }
-        .heart-btn:after { left: 45px; top: 0; }
-        @keyframes pulse { 0%, 100% { transform: rotate(-45deg) scale(1); } 50% { transform: rotate(-45deg) scale(1.1); } }
+        .tree {
+            position: relative;
+            height: 400px;
+            width: 200px;
+            background-color: brown;
+            border-radius: 10px;
+            bottom: 50px;
+        }
 
-        /* PANTALLA 2: EL TULIPÁN */
-        .flower-container { position: relative; height: 250px; display: flex; justify-content: center; align-items: flex-end; margin-bottom: 20px; }
-        .stem { width: 8px; height: 150px; background: #4caf50; border-radius: 4px; position: relative; }
-        .leaf-flower { position: absolute; width: 40px; height: 20px; background: #4caf50; border-radius: 40px 0; }
-        .leaf-1 { left: -35px; top: 50px; transform: rotate(-20deg); }
-        .leaf-2 { right: -35px; top: 80px; transform: rotate(200deg); }
-        
-        /* Pétalos del Tulipán */
-        .tulip { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 60px; height: 80px; }
-        .petal { position: absolute; width: 40px; height: 70px; background: #e91e63; border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; animation: bloom 3s ease-in-out infinite; }
-        .p1 { left: 0; transform: rotate(-15deg); z-index: 2; background: #c2185b; }
-        .p2 { right: 0; transform: rotate(15deg); z-index: 2; }
-        .p3 { left: 10px; top: -10px; width: 40px; height: 60px; z-index: 1; background: #ad1457; }
+        .leaves {
+            position: absolute;
+            bottom: 100px;
+            width: 300px;
+            height: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-        @keyframes bloom { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.05); } }
+        .leaf {
+            width: 60px;
+            height: 60px;
+            background-color: #ff5c8d;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            margin: 5px;
+            transform-origin: center center;
+            animation: swing 1s ease-in-out infinite;
+        }
 
-        .mensaje { color: #4a4a4a; margin-top: 20px; }
-        #te-amo { color: #ad1457; font-weight: bold; font-size: 1.6rem; }
-        .timer { font-weight: bold; color: #880e4f; font-size: 1.2rem; margin-top: 15px; }
+        .leaf:nth-child(odd) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes swing {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-10deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .heart {
+            position: absolute;
+            top: 10px;
+            width: 50px;
+            height: 50px;
+            background-color: #ff0000;
+            clip-path: polygon(50% 0%, 0% 40%, 50% 100%, 100% 40%);
+            transform: rotate(45deg);
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        .heart:nth-child(odd) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(1) translateY(0);
+            }
+            50% {
+                transform: scale(1.2) translateY(-10px);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Arial', sans-serif;
+            color: #ff5c8d;
+            margin-bottom: 30px;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="inicio" onclick="comenzar()">
-            <div class="heart-btn"></div>
-            <h2 style="color: #ad1457; margin-top: 50px;">Toca el corazón</h2>
-        </div>
 
-        <div id="regalo" class="hidden">
-            <div class="flower-container">
-                <div class="stem">
-                    <div class="leaf-flower leaf-1"></div>
-                    <div class="leaf-flower leaf-2"></div>
-                    <div class="tulip">
-                        <div class="petal p1"></div>
-                        <div class="petal p2"></div>
-                        <div class="petal p3"></div>
-                    </div>
-                </div>
+    <div class="container">
+        <h1>Árbol de Corazones</h1>
+        
+        <div class="tree">
+            <div class="leaves">
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
             </div>
-            <div class="mensaje">
-                <p>Para mi Norma (Nina):</p>
-                <p>No hay lugar mas seguro que el estar a tu lado.</p>
-                <p>Cuanto más tiempo estoy contigo, más te amo.</p>
-                <h2 id="te-amo">— ¡Te amo muchísimo! —</h2>
-                <p>Nuestro camino juntos comenzó hace...</p>
-                <div id="contador" class="timer"></div>
-            </div>
+
+            <div class="heart" style="top: 50px; left: 50px;"></div>
+            <div class="heart" style="top: 80px; left: 150px;"></div>
+            <div class="heart" style="top: 120px; left: 100px;"></div>
+            <div class="heart" style="top: 160px; left: 50px;"></div>
         </div>
     </div>
 
-    <script>
-        function comenzar() {
-            document.getElementById('inicio').classList.add('hidden');
-            document.getElementById('regalo').classList.remove('hidden');
-            actualizarReloj();
-            setInterval(actualizarReloj, 1000);
-        }
-
-        function actualizarReloj() {
-            // Tu fecha: Abril 9, 2016
-            const inicio = new Date(2016, 3, 9); 
-            const ahora = new Date();
-            const diff = ahora - inicio;
-            const a = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-            const d = Math.floor((diff / (1000 * 60 * 60 * 24)) % 365.25);
-            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const m = Math.floor((diff / (1000 * 60)) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-            document.getElementById('contador').innerHTML = `${a} años, ${d} días, ${h}h ${m}m ${s}s`;
-        }
-    </script>
 </body>
 </html>
