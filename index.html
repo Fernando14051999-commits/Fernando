@@ -3,28 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Nina</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Para mi Nina</title>
+    <style>
+        body {
+            background-color: #f5eee6;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container { text-align: center; width: 100%; }
+
+        /* CORAZÓN INICIAL */
+        #corazon-inicial { cursor: pointer; transition: transform 0.3s; }
+        #corazon-inicial:hover { transform: scale(1.1); }
+        
+        .heart-main {
+            background-color: #b32a3a;
+            display: inline-block;
+            height: 100px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 100px;
+            animation: latido 1.2s infinite;
+        }
+        .heart-main:before, .heart-main:after {
+            content: "";
+            background-color: #b32a3a;
+            border-radius: 50%;
+            height: 100px;
+            position: absolute;
+            width: 100px;
+        }
+        .heart-main:before { top: -50px; left: 0; }
+        .heart-main:after { left: 50px; top: 0; }
+
+        @keyframes latido {
+            0% { transform: rotate(-45deg) scale(1); }
+            20% { transform: rotate(-45deg) scale(1.1); }
+            40% { transform: rotate(-45deg) scale(1); }
+        }
+
+        /* ÁRBOL DE CORAZONES */
+        .tree-container {
+            position: relative;
+            width: 200px;
+            height: 250px;
+            margin: 0 auto 20px;
+        }
+
+        .trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 15px;
+            height: 120px;
+            background: #5D4037;
+            border-radius: 10px;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .heart-leaf {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e91e63;
+            transform: rotate(-45deg);
+            opacity: 0.9;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .heart-leaf::before, .heart-leaf::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e91e63;
+            border-radius: 50%;
+        }
+        .heart-leaf::before { top: -10px; left: 0; }
+        .heart-leaf::after { left: 10px; top: 0; }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(-45deg) translateY(0) scale(1); }
+            50% { transform: rotate(-45deg) translateY(-10px) scale(1.1); }
+        }
+
+        .mensaje { color: #4a4a4a; margin-top: 20px; padding: 0 20px; }
+        #te-amo { color: #b32a3a; font-weight: bold; }
+        .hidden { display: none !important; }
+        .contador { margin-top: 20px; font-size: 1.1rem; border-top: 1px solid #d3c4b4; padding-top: 15px; }
+    </style>
 </head>
 <body>
     <div class="container">
         <div id="corazon-inicial" onclick="iniciarAnimacion()">
-            <div class="heart-btn"></div>
-            <p style="cursor:pointer; margin-top:20px;">Toca el corazón</p>
+            <div class="heart-main"></div>
+            <h2 style="margin-top: 80px; color: #b32a3a;">Toca el corazón</h2>
         </div>
 
         <div id="contenido-oculto" class="hidden">
-            <div class="tree-container">
+            <div class="tree-container" id="tree">
                 <div class="trunk"></div>
-                <div class="heart-leaf leaf1"></div>
-                <div class="heart-leaf leaf2"></div>
-                <div class="heart-leaf leaf3"></div>
-                <div class="heart-leaf leaf4"></div>
-                <div class="heart-leaf leaf5"></div>
-            </div>
+                </div>
             
             <div class="mensaje">
-                <p>Para el amor de mi vida, Norma (Nina):</p>
+                <p>Para mi Norma (Nina):</p>
                 <p>No hay lugar mas seguro que el estar a tu lado.</p>
                 <p>Cuanto más tiempo estoy contigo, más te amo.</p>
                 <h2 id="te-amo">— ¡Te amo muchísimo! —</h2>
@@ -32,35 +121,68 @@
 
             <div class="contador">
                 <p>Nuestro camino juntos comenzó hace...</p>
-                <div id="timer" style="font-weight: bold; color: #b32a3a; font-size: 1.2rem;"></div>
+                <div id="timer" style="font-weight: bold; color: #b32a3a;"></div>
             </div>
         </div>
     </div>
 
     <script>
         function iniciarAnimacion() {
-            document.getElementById('corazon-inicial').style.display = 'none';
+            document.getElementById('corazon-inicial').classList.add('hidden');
             document.getElementById('contenido-oculto').classList.remove('hidden');
+            
+            generarCorazones();
             actualizarContador();
             setInterval(actualizarContador, 1000);
         }
 
-        const fechaInicio = new Date(2016, 3, 11, 0, 0, 0); 
+        function generarCorazones() {
+            const tree = document.getElementById('tree');
+            // Creamos 30 corazones para que se vea frondoso
+            for (let i = 0; i < 30; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'heart-leaf';
+                
+                // Posiciones aleatorias para formar la copa del árbol
+                const top = Math.random() * 120;
+                const left = (Math.random() * 160) + 20;
+                const delay = Math.random() * 2;
+                
+                leaf.style.top = top + 'px';
+                leaf.style.left = left + 'px';
+                leaf.style.animationDelay = delay + 's';
+                
+                // Variamos un poco el color de los corazones
+                if(i % 3 === 0) {
+                    leaf.style.background = '#ff4d6d';
+                    leaf.style.setProperty('--bg-color', '#ff4d6d');
+                }
+                
+                tree.appendChild(leaf);
+            }
+        }
+
+        // Fecha de inicio: 9 de Abril de 2016
+        const fechaInicio = new Date(2016, 3, 9, 0, 0, 0); 
 
         function actualizarContador() {
             const ahora = new Date();
             const diferencia = ahora - fechaInicio;
+
             const diasTotales = Math.floor(diferencia / (1000 * 60 * 60 * 24));
             const años = Math.floor(diasTotales / 365);
             const diasRestantes = diasTotales % 365;
             const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
             const minutos = Math.floor((diferencia / 1000 / 60) % 60);
             const segundos = Math.floor((diferencia / 1000) % 60);
-            document.getElementById('timer').innerHTML = `${años} años, ${diasRestantes} días, ${horas}h ${minutos}m ${segundos}s`;
+
+            document.getElementById('timer').innerHTML = 
+                `${años} años, ${diasRestantes} días, ${horas}h ${minutos}m ${segundos}s`;
         }
     </script>
 </body>
 </html>
+
 
 
 
