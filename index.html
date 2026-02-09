@@ -3,127 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Árbol de Corazones</title>
+    <title>Para mi Nina</title>
     <style>
         body {
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f8ff;
-        }
-
-        .tree {
+            overflow-x: hidden;
+            background-color: #fce4ec; /* Color de fondo por si la imagen no carga */
+            background-image: url('https://i.imgur.com/k93N3Xo.png'); /* IMAGEN DEL RAMO GRANDE */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #4a4a4a;
+            text-align: center;
             position: relative;
-            height: 400px;
-            width: 200px;
-            background-color: brown;
-            border-radius: 10px;
-            bottom: 50px;
         }
 
-        .leaves {
-            position: absolute;
-            bottom: 100px;
-            width: 300px;
-            height: 200px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.7); /* Caja semitransparente para el texto */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            margin: 20px auto;
+            backdrop-filter: blur(5px); /* Efecto de desenfoque detrás del texto */
         }
 
-        .leaf {
-            width: 60px;
-            height: 60px;
-            background-color: #ff5c8d;
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-            margin: 5px;
-            transform-origin: center center;
-            animation: swing 1s ease-in-out infinite;
-        }
+        #inicio { cursor: pointer; }
 
-        .leaf:nth-child(odd) {
-            animation-delay: 0.5s;
-        }
-
-        @keyframes swing {
-            0% {
-                transform: rotate(0deg);
-            }
-            50% {
-                transform: rotate(-10deg);
-            }
-            100% {
-                transform: rotate(0deg);
-            }
-        }
-
-        .heart {
-            position: absolute;
-            top: 10px;
-            width: 50px;
-            height: 50px;
-            background-color: #ff0000;
-            clip-path: polygon(50% 0%, 0% 40%, 50% 100%, 100% 40%);
-            transform: rotate(45deg);
-            animation: bounce 1s ease-in-out infinite;
-        }
-
-        .heart:nth-child(odd) {
-            animation-delay: 0.5s;
-        }
-
-        @keyframes bounce {
-            0% {
-                transform: scale(1) translateY(0);
-            }
-            50% {
-                transform: scale(1.2) translateY(-10px);
-            }
-            100% {
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            font-family: 'Arial', sans-serif;
-            color: #ff5c8d;
+        /* Corazón que late al inicio */
+        .heart-btn {
+            background-color: #d81b60;
+            display: inline-block;
+            height: 90px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 90px;
+            animation: pulse 1.2s infinite;
             margin-bottom: 30px;
         }
+        .heart-btn:before, .heart-btn:after {
+            content: "";
+            background-color: #d81b60;
+            border-radius: 50%;
+            height: 90px;
+            position: absolute;
+            width: 90px;
+        }
+        .heart-btn:before { top: -45px; left: 0; }
+        .heart-btn:after { left: 45px; top: 0; }
+        @keyframes pulse {
+            0%, 100% { transform: rotate(-45deg) scale(1); }
+            50% { transform: rotate(-45deg) scale(1.1); }
+        }
 
+        /* Mensajes y contador */
+        .mensaje p { margin: 8px 0; line-height: 1.5; }
+        #te-amo { color: #ad1457; font-weight: bold; font-size: 1.8rem; margin: 15px 0; }
+        .timer { color: #880e4f; font-weight: bold; font-size: 1.3rem; margin-top: 15px; }
+        .hidden { display: none !important; }
+
+        /* Media queries para adaptar en móviles */
+        @media (max-width: 768px) {
+            .content-box { padding: 20px; }
+            .heart-btn { height: 70px; width: 70px; margin-bottom: 20px; }
+            .heart-btn:before, .heart-btn:after { height: 70px; width: 70px; }
+            .heart-btn:before { top: -35px; }
+            .heart-btn:after { left: 35px; }
+            #te-amo { font-size: 1.5rem; }
+            .timer { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
+    <div class="content-box">
+        <div id="inicio" onclick="comenzar()">
+            <div class="heart-btn"></div>
+            <h2 style="color: #ad1457; margin-top: 40px;">Toca el corazón</h2>
+        </div>
 
-    <div class="container">
-        <h1>Árbol de Corazones</h1>
-        
-        <div class="tree">
-            <div class="leaves">
-                <div class="leaf"></div>
-                <div class="leaf"></div>
-                <div class="leaf"></div>
-                <div class="leaf"></div>
+        <div id="regalo" class="hidden">
+            <div class="mensaje">
+                <p>Para mi Norma (Nina):</p>
+                <p>No hay lugar más seguro que el estar a tu lado.</p>
+                <p>Cuanto más tiempo estoy contigo, más te amo.</p>
+                <h2 id="te-amo">— ¡Te amo muchísimo! —</h2>
+                <p>Nuestro camino juntos comenzó hace...</p>
+                <div id="contador" class="timer"></div>
             </div>
-
-            <div class="heart" style="top: 50px; left: 50px;"></div>
-            <div class="heart" style="top: 80px; left: 150px;"></div>
-            <div class="heart" style="top: 120px; left: 100px;"></div>
-            <div class="heart" style="top: 160px; left: 50px;"></div>
         </div>
     </div>
 
+    <script>
+        function comenzar() {
+            document.getElementById('inicio').classList.add('hidden');
+            document.getElementById('regalo').classList.remove('hidden');
+            actualizarReloj();
+            setInterval(actualizarReloj, 1000);
+        }
+
+        function actualizarReloj() {
+            const inicio = new Date(2016, 3, 9); // Abril 9, 2016
+            const ahora = new Date();
+            const diff = ahora - inicio;
+            
+            const a = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            const d = Math.floor((diff / (1000 * 60 * 60 * 24)) % 365.25);
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            
+            document.getElementById('contador').innerHTML = `${a} años, ${d} días, ${h}h ${m}m ${s}s`;
+        }
+    </script>
 </body>
 </html>
