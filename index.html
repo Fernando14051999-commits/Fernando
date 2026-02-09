@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Nina</title>
+    <title>Para mi Nina</title>
     <style>
         body { background-color: #f5eee6; font-family: 'Courier New', Courier, monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
         .container { text-align: center; width: 100%; position: relative; }
@@ -17,30 +17,29 @@
         @keyframes latido { 0% { transform: rotate(-45deg) scale(1); } 20% { transform: rotate(-45deg) scale(1.1); } 40% { transform: rotate(-45deg) scale(1); } }
 
         /* PANTALLA 2: EL ÁRBOL DE CÓDIGO */
-        .tree { position: relative; width: 220px; height: 300px; margin: 0 auto 20px; }
-        .trunk { position: absolute; bottom: 0; left: 50%; width: 18px; height: 140px; background: #5D4037; border-radius: 10px; transform: translateX(-50%); z-index: 1; }
+        .tree { position: relative; width: 300px; height: 350px; margin: 0 auto 20px; } /* Más grande */
+        .trunk { position: absolute; bottom: 0; left: 50%; width: 25px; height: 150px; background: #5D4037; border-radius: 15px; transform: translateX(-50%); z-index: 1; } /* Tronco más grueso y alto */
         
-        /* CORAZONES DEL ÁRBOL */
-        .leaf { position: absolute; width: 22px; height: 22px; background: #e91e63; transform: rotate(-45deg); animation: flotar 3s infinite ease-in-out; }
-        .leaf:before, .leaf:after { content: ""; position: absolute; width: 22px; height: 22px; background: #e91e63; border-radius: 50%; }
-        .leaf:before { top: -11px; left: 0; }
-        .leaf:after { left: 11px; top: 0; }
-        @keyframes flotar { 0%, 100% { transform: rotate(-45deg) translateY(0); } 50% { transform: rotate(-45deg) translateY(-12px); } }
+        .leaf { position: absolute; width: 25px; height: 25px; background: #e91e63; transform: rotate(-45deg); animation: flotar 3s infinite ease-in-out; border-radius: 3px; /* Pequeño ajuste para que no sean tan perfectos */ }
+        .leaf:before, .leaf:after { content: ""; position: absolute; width: 25px; height: 25px; background: #e91e63; border-radius: 50%; }
+        .leaf:before { top: -12.5px; left: 0; }
+        .leaf:after { left: 12.5px; top: 0; }
+        @keyframes flotar { 0%, 100% { transform: rotate(-45deg) translateY(0); } 50% { transform: rotate(-45deg) translateY(-15px); } } /* Más movimiento */
 
-        .mensaje { color: #4a4a4a; margin-top: 20px; padding: 0 15px; }
-        #te-amo { color: #b32a3a; font-weight: bold; margin: 15px 0; }
-        .timer { font-weight: bold; color: #b32a3a; font-size: 1.15rem; margin-top: 10px; }
+        .mensaje { color: #4a4a4a; margin-top: 20px; }
+        #te-amo { color: #b32a3a; font-weight: bold; }
+        .timer { font-weight: bold; color: #b32a3a; font-size: 1.15rem; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="inicio" onclick="comenzar()">
             <div class="heart-btn"></div>
-            <h2 style="color: #b32a3a; margin-top: 40px;">Toca el corazón</h2>
+            <h2 style="color: #b32a3a; margin-top: 50px;">Toca el corazón</h2>
         </div>
 
         <div id="regalo" class="hidden">
-            <div class="tree" id="tree-container">
+            <div class="tree" id="tree-box">
                 <div class="trunk"></div>
             </div>
             <div class="mensaje">
@@ -58,36 +57,34 @@
         function comenzar() {
             document.getElementById('inicio').classList.add('hidden');
             document.getElementById('regalo').classList.remove('hidden');
-            construirArbol();
-            iniciarReloj();
-        }
-
-        function construirArbol() {
-            const container = document.getElementById('tree-container');
-            // Creamos 40 corazones para que se vea muy lleno como el video
-            for (let i = 0; i < 40; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                // Posicionamiento aleatorio en la copa del árbol
-                const top = Math.random() * 140; 
-                const left = (Math.random() * 180) + 20; 
-                const delay = Math.random() * 2;
+            
+            // Creamos 80 corazones para una copa muy frondosa
+            const box = document.getElementById('tree-box');
+            for (let i = 0; i < 80; i++) {
+                const l = document.createElement('div');
+                l.className = 'leaf';
                 
-                leaf.style.top = top + 'px';
-                leaf.style.left = left + 'px';
-                leaf.style.animationDelay = delay + 's';
+                // Posicionamiento aleatorio dentro de una elipse para la copa
+                const angle = Math.random() * Math.PI * 2; // Ángulo aleatorio
+                const radiusX = Math.random() * 100 + 20; // Radio horizontal
+                const radiusY = Math.random() * 80 + 20; // Radio vertical
+                const centerX = 100; // Centro X del árbol
+                const centerY = 120; // Centro Y de la copa
+
+                l.style.top = (centerY + Math.sin(angle) * radiusY) + 'px';
+                l.style.left = (centerX + Math.cos(angle) * radiusX) + 'px';
+                
+                l.style.animationDelay = (Math.random() * 3) + 's'; // Retraso para el efecto flotante
                 
                 // Variedad de rosas y rojos
-                if(i % 3 === 0) leaf.style.background = '#ff4d6d';
-                if(i % 3 === 1) leaf.style.background = '#c9184a';
+                if(i % 3 === 0) l.style.background = '#ff4d6d';
+                if(i % 3 === 1) l.style.background = '#c9184a';
                 
-                container.appendChild(leaf);
+                box.appendChild(l);
             }
-        }
 
-        function iniciarReloj() {
-            // Fecha ajustada para marcar tus 9 años y 306 días actuales
-            const inicio = new Date(2016, 3, 11); 
+            // Iniciamos el contador (Abril 9, 2016)
+            const inicio = new Date(2016, 3, 9); 
             setInterval(() => {
                 const ahora = new Date();
                 const diff = ahora - inicio;
