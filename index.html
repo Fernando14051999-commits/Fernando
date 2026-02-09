@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para el amor de mi vida</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="corazon-inicial" onclick="iniciarAnimacion()">
+            <div class="heart"></div>
+            <p>San Valentín</p>
+        </div>
+
+        <div id="contenido-oculto" class="hidden">
+            <div class="arbol-container">
+                <img src="https://raw.githubusercontent.com/Arastrid/tree-animation/main/tree.gif" alt="Árbol de corazones" class="arbol">
+            </div>
+            
+            <div class="mensaje">
+                <p>Para el amor de mi vida:</p>
+                <p>Si pudiera elegir un lugar seguro, sería a tu lado.</p>
+                <p>Cuanto más tiempo estoy contigo, más te amo.</p>
+                <h2 id="te-amo">— I Love You! _</h2>
+            </div>
+
+            <div class="contador">
+                <p>Mi amor por ti comenzó hace...</p>
+                <div id="timer">Cargando tiempo...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function iniciarAnimacion() {
+            document.getElementById('corazon-inicial').classList.add('hidden');
+            document.getElementById('contenido-oculto').classList.remove('hidden');
+            actualizarContador();
+            setInterval(actualizarContador, 1000);
+        }
+
+        // Configura aquí la fecha en que empezaron (Año, Mes - 1, Día, Hora, Minuto)
+        const fechaInicio = new Date(2025, 1, 14, 0, 0, 0); 
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diferencia = ahora - fechaInicio;
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+            const minutos = Math.floor((diferencia / 1000 / 60) % 60);
+            const segundos = Math.floor((diferencia / 1000) % 60);
+
+            document.getElementById('timer').innerHTML = 
+                `${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos`;
+        }
+    </script>
+</body>
+</html>
